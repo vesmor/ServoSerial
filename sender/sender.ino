@@ -1,23 +1,24 @@
-//FIXME: theres some type of weird bug where the receiver arduino being attached to usb will work but attaching it to the sender will reset it back to 0
+// FIXME: theres some type of weird bug where the receiver arduino being attached to usb will work but attaching it to the sender will reset it back to 0
 
-#include <SoftwareSerial.h>
+// #include <SoftwareSerial.h>
 #define BAUD_RATE 115200
-#define RX_PIN 2
 #define TX_PIN 3
 
-#define OPEN 0
-#define CLOSE 90
+#define CLOSE 0
+#define OPEN 1
 
-SoftwareSerial recSerial(RX_PIN, TX_PIN);
-int C = 0;
+int mode = 0;
 
-void setup() {
+void setup()
+{
   Serial.begin(BAUD_RATE);
-  recSerial.begin(19200);
+
+  pinMode(TX_PIN, OUTPUT);
 }
 
-//send random angle between 0 and 180 to receiver with servo attached
-void loop() {
+// send random angle between 0 and 180 to receiver with servo attached
+void loop()
+{
   // //Send
   // Serial.println("Enter an angle from 0-180:");
   // //Wait for user input
@@ -30,11 +31,25 @@ void loop() {
   // Serial.print(angle);
   // delay(100);
 
-  long angle = random(0, 180);
-  recSerial.print(angle);
-  recSerial.flush();
-  
-  delay(100);
-  Serial.println(angle);
-  delay(1500);
+  Serial.println("Enter 0. Close or 1. Open:");
+
+  while (!Serial.available())
+  {
+  }
+
+  mode = Serial.parseInt();
+  if (mode == OPEN)
+  {
+    mode = OPEN;
+    digitalWrite(TX_PIN, HIGH);
+    Serial.println("Opening to 180 degrees");
+  }
+  else if (mode == CLOSE)
+  {
+    mode = CLOSE;
+    digitalWrite(TX_PIN, LOW);
+    Serial.println("Closing to 0 degrees");
+  }
+
+  delay(50);
 }

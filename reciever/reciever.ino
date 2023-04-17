@@ -1,45 +1,44 @@
-#include "ServoTimer2.h"
-#include <SoftwareSerial.h>
+#include "Servo.h"
 #define S_PIN 9
 #define T_PIN 10
 
 #define BAUD_RATE 115200
-#define RX_PIN 2
-#define TX_PIN 3
+#define RX_PIN 7
+#define OPEN 90
+#define CLOSE 0
 
-SoftwareSerial senSerial(RX_PIN, TX_PIN);
-
-ServoTimer2 s;
-ServoTimer2 t;
+Servo s;
+Servo t;
 
 int angle = 0;
 
-void setup() {
-  senSerial.begin(19200);
+void setup()
+{
   Serial.begin(BAUD_RATE);
+  pinMode(RX_PIN, INPUT);
+
   s.attach(S_PIN);
   t.attach(T_PIN);
-  s.write(angle);
+  s.write(OPEN);
+  delay(1000);
   Serial.println("Receiver ready!");
 }
 
-void loop() {
-  // while (!senSerial.available()) {
-    
-  //   s.write(angle + 750);
-  //   delay(100);
-  // }
-  // angle = senSerial.read();
-  // delay(100);
-  while(!senSerial.available()){
+void loop()
+{
 
+  if (digitalRead(RX_PIN) == LOW)
+  {
+    Serial.println("LOW");
+    s.write(CLOSE);
+    delay(500);
   }
-  int oldangle = senSerial.parseInt();
-  angle = map(oldangle, 0 , 180, 750, 2250); //because the servo2 library maps to microS not angle
-  s.write(angle);
+  if (digitalRead(RX_PIN) == HIGH)
+  {
+    Serial.println("HIGH");
+    s.write(OPEN);
+    delay(500);
+  }
 
-  Serial.print("angle: ");
-  Serial.println(oldangle);
-
-  delay(100);
+  delay(50);
 }
