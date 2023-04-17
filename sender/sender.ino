@@ -1,5 +1,7 @@
+//FIXME: theres some type of weird bug where the receiver arduino being attached to usb will work but attaching it to the sender will reset it back to 0
+
 #include <SoftwareSerial.h>
-#define BAUD_RATE 9600
+#define BAUD_RATE 115200
 #define RX_PIN 2
 #define TX_PIN 3
 
@@ -14,17 +16,25 @@ void setup() {
   recSerial.begin(19200);
 }
 
-
+//send random angle between 0 and 180 to receiver with servo attached
 void loop() {
-  //Send
-  Serial.println("Enter an angle from 0-180:");
-  //Wait for user input
-  while (!Serial.available()) {  }
-  C = Serial.parseInt();
-  Serial.flush();
-  //In case we dont get the right values
-  if(C==0){recSerial.write(CLOSE);}
-  if(C==1){recSerial.write(OPEN);}
-  Serial.print(angle);
+  // //Send
+  // Serial.println("Enter an angle from 0-180:");
+  // //Wait for user input
+  // while (!Serial.available()) {  }
+  // C = Serial.parseInt();
+  // Serial.flush();
+  // //In case we dont get the right values
+  // if(C==0)recSerial.print(CLOSE);
+  // if(C==1)recSerial.print(OPEN);
+  // Serial.print(angle);
+  // delay(100);
+
+  long angle = random(0, 180);
+  recSerial.print(angle);
+  recSerial.flush();
+  
   delay(100);
+  Serial.println(angle);
+  delay(1500);
 }
