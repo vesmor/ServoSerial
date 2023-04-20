@@ -4,8 +4,8 @@
 
 #define BAUD_RATE 115200
 #define RX_PIN 7
-#define OPEN 90
-#define CLOSE 0
+#define OPEN 0
+#define CLOSE 90
 
 Servo s;
 Servo t;
@@ -15,7 +15,7 @@ int angle = 0;
 void setup()
 {
   Serial.begin(BAUD_RATE);
-  pinMode(RX_PIN, INPUT);
+  pinMode(RX_PIN, INPUT_PULLUP);
 
   s.attach(S_PIN);
   t.attach(T_PIN);
@@ -31,14 +31,12 @@ void loop()
   {
     Serial.println("LOW");
     s.write(CLOSE);
-    delay(500);
   }
   if (digitalRead(RX_PIN) == HIGH)
   {
     Serial.println("HIGH");
     s.write(OPEN);
-    delay(500);
   }
 
-  delay(50);
+  delay(100);
 }

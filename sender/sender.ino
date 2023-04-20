@@ -42,7 +42,7 @@ void loop()
   {
     mode = OPEN;
     digitalWrite(TX_PIN, HIGH);
-    Serial.println("Opening to 180 degrees");
+    Serial.println("Opening to 90 degrees");
   }
   else if (mode == CLOSE)
   {
