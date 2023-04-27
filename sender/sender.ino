@@ -1,5 +1,3 @@
-// FIXME: theres some type of weird bug where the receiver arduino being attached to usb will work but attaching it to the sender will reset it back to 0
-
 // #include <SoftwareSerial.h>
 #define BAUD_RATE 115200
 #define TX_PIN 3
