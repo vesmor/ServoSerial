@@ -1,5 +1,4 @@
 // Sender
-// Zack Kiener
 const int SIGNAL_PIN1 = 2;
 const int SIGNAL_PIN2 = 3; // Pin to send the signal to the second Arduino
 

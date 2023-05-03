@@ -1,5 +1,4 @@
 // Receiver
-// Zack Kiener
 #include "Servo.h"
 
 #define T_PIN 7
