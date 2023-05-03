@@ -1,4 +1,5 @@
 // Receiver
+
 #include "Servo.h"
 
 #define T_PIN 7
@@ -54,6 +55,9 @@ void loop()
     t.write(CLOSE);
     break;
   case 3: // Close - Active
+    delay(10000);
+    s.write(CLOSE);
+    t.write(CLOSE);
     break;
   }
 }

@@ -43,19 +43,4 @@ void loop()
     digitalWrite(SIGNAL_PIN2, HIGH);
     break;
   }
-
-  // if (num == 1) {
-  //   num = 1;
-  //   digitalWrite(SIGNAL_PIN1, HIGH);  // Send a high signal to the second Arduino
-  //   Serial.print(" High / t servo");
-  // }
-  // if (num == 2) {
-  //   num = 2;
-  //   digitalWrite(SIGNAL_PIN2, HIGH);
-  //   Serial.print(" ");
-  // }
-  // if (num == 0) {
-  //   num = 0;
-  //   digitalWrite(SIGNAL_PIN2, LOW);
-  // }
 }
