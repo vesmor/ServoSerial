@@ -1,44 +1,62 @@
-// FIXME: theres some type of weird bug where the receiver arduino being attached to usb will work but attaching it to the sender will reset it back to 0
+// Sender
+// Zack Kiener
+const int SIGNAL_PIN1 = 2;
+const int SIGNAL_PIN2 = 3; // Pin to send the signal to the second Arduino
 
-// #include <SoftwareSerial.h>
-#define BAUD_RATE 115200
-#define TX_PIN 3
-
-#define OPEN 1
-#define CLOSE 0
-
-int mode = CLOSE;
+int num = 0;
 
 void setup()
 {
-  Serial.begin(BAUD_RATE);
-  pinMode(TX_PIN, OUTPUT);
-  digitalWrite(TX_PIN, HIGH);
-  delay(1000);
+  Serial.begin(19200);
+  pinMode(SIGNAL_PIN1, OUTPUT);
+  pinMode(SIGNAL_PIN2, OUTPUT);
+  digitalWrite(SIGNAL_PIN1, LOW);
+  digitalWrite(SIGNAL_PIN2, LOW);
+  // delay(1000)
 }
 
-// send random angle between 0 and 180 to receiver with servo attached
 void loop()
 {
+  Serial.println("Enter desired degree:");
+  while (Serial.available() == 0)
+  { // indefinite loop until we enter a degree
+  }
+  num = Serial.parseInt();
+  Serial.print("Servo is going to ");
+  Serial.print(num);
 
-  Serial.println("Enter 0. Close or 1. Open:");
-
-  while (!Serial.available())
+  switch (num)
   {
+  case 0: // Close No Power
+    digitalWrite(SIGNAL_PIN1, LOW);
+    digitalWrite(SIGNAL_PIN2, LOW);
+    break;
+  case 1: // Launch
+    digitalWrite(SIGNAL_PIN1, HIGH);
+    digitalWrite(SIGNAL_PIN2, LOW);
+    break;
+  case 2: // Abort
+    digitalWrite(SIGNAL_PIN1, LOW);
+    digitalWrite(SIGNAL_PIN2, HIGH);
+    break;
+  case 3: // Close/Active
+    digitalWrite(SIGNAL_PIN1, HIGH);
+    digitalWrite(SIGNAL_PIN2, HIGH);
+    break;
   }
 
-  mode = Serial.parseInt();
-  Serial.println(mode);
-  if (mode == OPEN)
-  {
-    mode = CLOSE;
-    digitalWrite(TX_PIN, LOW);
-    Serial.println("Opening to 90 degrees");
-  }
-  else if (mode == CLOSE)
-  {
-    mode = CLOSE;
-    digitalWrite(TX_PIN, HIGH);
-    Serial.println("Closing to 0 degrees");
-  }
+  // if (num == 1) {
+  //   num = 1;
+  //   digitalWrite(SIGNAL_PIN1, HIGH);  // Send a high signal to the second Arduino
+  //   Serial.print(" High / t servo");
+  // }
+  // if (num == 2) {
+  //   num = 2;
+  //   digitalWrite(SIGNAL_PIN2, HIGH);
+  //   Serial.print(" ");
+  // }
+  // if (num == 0) {
+  //   num = 0;
+  //   digitalWrite(SIGNAL_PIN2, LOW);
+  // }
 }
